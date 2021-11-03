@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SplashAcvitivy</string>
+    <string name="appSplash">The game where you can test your KNOWLEDGE on where U.S. cities are!!</string>
+    <string name="appSplash2">Select the button below to begin your quiz:</string>
 </resources>
