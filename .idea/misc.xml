@@ -5,14 +5,8 @@
       <map>
         <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/drawable/mybutton.xml" value="0.2703125" />
         <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/drawable/nav_menu.xml" value="0.209375" />
-        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/activity_splash.xml" value="0.264" />
-        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/fragment_overview.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/fragment_review_quizzes.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/fragment_splash.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/activity_splash.xml" value="0.176" />
         <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/nav_menu.xml" value="0.19322916666666667" />
-        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/overview_layout.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/past_quiz_entry.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/menu/menu_nav_drawer.xml" value="0.19322916666666667" />
         <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/menu/settings_menu.xml" value="0.19322916666666667" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.335" />
