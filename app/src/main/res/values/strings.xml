@@ -2,4 +2,13 @@
     <string name="app_name">SplashAcvitivy</string>
     <string name="appSplash">The game where you can test your KNOWLEDGE on where U.S. cities are!!</string>
     <string name="appSplash2">Select the button below to begin your quiz:</string>
+    <string name="appTutorial">This application is designed to test your knowledge of U.S. states.
+        Every Quiz will be 6 questions long, try and get a perfect score!</string>
+    <string name="appTutorial2"> Once youve started your quiz, select which of the 3 answers you
+        think is correct and swipe left to move on to the next question</string>
+    <string name="appTutorial3"> You can swipe right to return to your previous question if you change your mind</string>
+    <string name="appTutorial4"> Select "Past Quizzes" in the menu to view your quiz history </string>
+    <string name="appTutorial5">...And most importantly, HAVE FUN!!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
