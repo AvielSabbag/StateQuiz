@@ -10,7 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
-        android:layout_marginTop="50dp"
         android:fontFamily="@font/fascinate"
         android:text="Tutorial"
         android:textSize="34sp"

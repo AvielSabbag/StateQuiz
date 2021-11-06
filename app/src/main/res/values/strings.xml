@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SplashAcvitivy</string>
+    <string name="app_name">StateQuiz</string>
     <string name="appSplash">The game where you can test your KNOWLEDGE on where U.S. cities are!!</string>
     <string name="appSplash2">Select the button below to begin your quiz:</string>
     <string name="appTutorial">This application is designed to test your knowledge of U.S. states.
@@ -9,6 +9,7 @@
     <string name="appTutorial3"> You can swipe right to return to your previous question if you change your mind</string>
     <string name="appTutorial4"> Select "Past Quizzes" in the menu to view your quiz history </string>
     <string name="appTutorial5">...And most importantly, HAVE FUN!!</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="open">Open</string>
+    <string name="closed">Closed</string>
 </resources>
