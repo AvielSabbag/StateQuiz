@@ -6,16 +6,21 @@ public class Quiz {
     private int id;
     private String date;
     private int score;
+    private CapitalQuizQuestion[] questions;
+    private boolean isFinished;
 
     public Quiz() {
         id = 0;
         date = "";
         score = 0;
+        isFinished = false;
     }
 
-    public Quiz(String date, int score){
+    public Quiz(String date, int score, CapitalQuizQuestion[] q){
         this.date = date;
         this.score = score;
+        questions = q;
+        isFinished = false;
     }
 
     public int getId(){
@@ -41,4 +46,9 @@ public class Quiz {
     public void setScore(int score){
         this.score = score;
     }
+
+    public CapitalQuizQuestion[] getQuestionIds() {return questions;}
+
+    public void setQuestionIds( CapitalQuizQuestion[] qids) { questions = qids;}
+
 }

@@ -2,21 +2,19 @@ package edu.uga.cs.statequiz;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.view.Gravity;
-import android.widget.TableRow;
-import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class CapitalsData {
     public static final String DEBUG_TAG = "CapitalsData";
-    private SQLiteDatabase db;
-    private SQLiteOpenHelper capitalsDbHelper;
+    private static SQLiteDatabase db;
+    private static SQLiteOpenHelper capitalsDbHelper;
     private static final String[] capitalColumns = {
             CapitalsDBHelper.capitals_COLUMN_ID,
             CapitalsDBHelper.capitals_COLUMN_STATENAME,
@@ -41,7 +39,7 @@ public class CapitalsData {
         this.capitalsDbHelper = CapitalsDBHelper.getInstance( context );
     }
 
-    public void open() {
+    public static void open() {
         db = capitalsDbHelper.getWritableDatabase();
         Log.d( DEBUG_TAG, "CapitalsData: db open" );
     }
@@ -54,7 +52,53 @@ public class CapitalsData {
         }
     }
 
+    public List<CapitalQuizQuestion> retrieveAllQuestions() {
+        ArrayList<CapitalQuizQuestion> quizQuestion = new ArrayList<CapitalQuizQuestion>();
+        Cursor cursor = null;
 
+        try {
+            cursor = db.query(CapitalsDBHelper.TABLE_CAPITALS, capitalColumns,
+                    null, null, null, null, null);
+            //collect all quiz questions
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    long id = cursor.getLong(cursor.getColumnIndex(CapitalsDBHelper.capitals_COLUMN_ID));
+                    String stateName = cursor.getString(cursor.getColumnIndex(CapitalsDBHelper.capitals_COLUMN_STATENAME));
+                    String capitalName = cursor.getString(cursor.getColumnIndex(CapitalsDBHelper.capitals_COLUMN_CAPITAL));
+                    String cityName = cursor.getString(cursor.getColumnIndex(CapitalsDBHelper.capitals_COLUMN_CITY));
+                    String city2Name = cursor.getString(cursor.getColumnIndex(CapitalsDBHelper.capitals_COLUMN_CITY1));
 
+                    CapitalQuizQuestion capitalQuizQuestion =
+                            new CapitalQuizQuestion(stateName, capitalName, cityName, city2Name);
+                    capitalQuizQuestion.setId((int) id);
+                    quizQuestion.add(capitalQuizQuestion);
 
+                }
+            }
+        } catch (Exception e) {
+            Log.d(DEBUG_TAG, "Exception caught: " + e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return quizQuestion;
+    }
+
+    //Store a new capital quiz question
+    public CapitalQuizQuestion storeQuizQuestion(CapitalQuizQuestion capQuestion) {
+
+        ContentValues values = new ContentValues();
+        values.put(CapitalsDBHelper.capitals_COLUMN_STATENAME, capQuestion.getState());
+        values.put(CapitalsDBHelper.capitals_COLUMN_CAPITAL, capQuestion.getCapital());
+        values.put(CapitalsDBHelper.capitals_COLUMN_CITY, capQuestion.getCity());
+        values.put(CapitalsDBHelper.capitals_COLUMN_CITY1, capQuestion.getCity1());
+
+        long id = db.insert(CapitalsDBHelper.TABLE_CAPITALS, null, values);
+
+        capQuestion.setId((int)id);
+
+        return capQuestion;
+    }
 }

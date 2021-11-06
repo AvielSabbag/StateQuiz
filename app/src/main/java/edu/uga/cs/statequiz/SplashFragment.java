@@ -10,6 +10,10 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SplashFragment#newInstance} factory method to
@@ -50,6 +54,7 @@ public class SplashFragment extends Fragment {
         quizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 QuizFragment quizFragment = QuizFragment.newInstance();
                 FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragmentContainerView, quizFragment).commit();
@@ -70,5 +75,17 @@ public class SplashFragment extends Fragment {
         } else {
             return 0;
         }
+    }
+
+    public Quiz createNewQuiz() {
+        CapitalsData capitalsData = new CapitalsData(getContext());
+        List<CapitalQuizQuestion> allQuestions = capitalsData.retrieveAllQuestions();
+        Collections.shuffle(allQuestions)
+        CapitalQuizQuestion[] randomQuestions = new CapitalQuizQuestion[6];
+        for(int i = 0; i<6; i++) {
+            randomQuestions[i] = allQuestions.get(i);
+        }
+
+
     }
 }

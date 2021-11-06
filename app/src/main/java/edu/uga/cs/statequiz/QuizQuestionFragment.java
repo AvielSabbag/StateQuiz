@@ -37,7 +37,7 @@ public class QuizQuestionFragment extends Fragment {
      * @return A new instance of fragment QuizQuestionFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static QuizQuestionFragment newInstance(String param1, String param2) {
+    public static QuizQuestionFragment newInstance(CapitalQuizQuestion cqc) {
         QuizQuestionFragment fragment = new QuizQuestionFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
