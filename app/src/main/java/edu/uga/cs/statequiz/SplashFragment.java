@@ -55,7 +55,7 @@ public class SplashFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                QuizFragment quizFragment = QuizFragment.newInstance();
+                QuizFragment quizFragment = QuizFragment.newInstance(createNewQuiz());
                 FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragmentContainerView, quizFragment).commit();
             }
@@ -78,14 +78,15 @@ public class SplashFragment extends Fragment {
     }
 
     public Quiz createNewQuiz() {
+        Quiz newQuiz;
         CapitalsData capitalsData = new CapitalsData(getContext());
         List<CapitalQuizQuestion> allQuestions = capitalsData.retrieveAllQuestions();
-        Collections.shuffle(allQuestions)
+        Collections.shuffle(allQuestions);
         CapitalQuizQuestion[] randomQuestions = new CapitalQuizQuestion[6];
         for(int i = 0; i<6; i++) {
             randomQuestions[i] = allQuestions.get(i);
         }
-
+        newQuiz = new Quiz();
 
     }
 }
