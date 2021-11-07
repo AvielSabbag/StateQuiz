@@ -1,8 +1,10 @@
 package edu.uga.cs.statequiz;
 
 
+import java.io.Serializable;
+
 /** POJO Class for quiz*/
-public class Quiz {
+public class Quiz implements Serializable {
     private int id;
     private String date;
     private int score;

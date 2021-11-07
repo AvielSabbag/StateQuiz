@@ -1,6 +1,5 @@
 package edu.uga.cs.statequiz;
 
-import android.graphics.Paint;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +13,7 @@ import java.util.List;
 public class DBConstructor extends AppCompatActivity{
 
     private CapitalsData capitalsData = new CapitalsData(this);
-    private List<CapitalQuizQuestion> capitalQuizQuestions;
+    private static List<CapitalQuizQuestion> capitalQuizQuestions;
 
     private void constructDatabase(String fileName) {
         try {
@@ -22,7 +21,9 @@ public class DBConstructor extends AppCompatActivity{
             CSVReader reader = new CSVReader(new InputStreamReader(in_s));
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-
+                CapitalQuizQuestion[] cqc = {new CapitalQuizQuestion(nextLine[0], nextLine[1], nextLine[2], nextLine[3])};
+                CapitalDBWriter newWriter = new CapitalDBWriter();
+                newWriter.doInBackground(cqc);
             }
         } catch (Exception e) {
             Log.e("DBConstruction", e.toString());

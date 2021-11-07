@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -13,6 +16,13 @@ import androidx.fragment.app.Fragment;
  * create an instance of this fragment.
  */
 public class QuizFragment extends Fragment {
+    QuizPagerAdapter quizAdapter;
+    TabLayout tabLayout;
+    ViewPager qPager;
+
+    public final static String questionNum = "Question ";
+
+    public final static String question = "Which City is the Capital of ";
 
 
 
@@ -30,7 +40,7 @@ public class QuizFragment extends Fragment {
     public static QuizFragment newInstance(Quiz quiz) {
         QuizFragment fragment = new QuizFragment();
         Bundle args = new Bundle();
-        args.
+        args.putSerializable("quiz", quiz);
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,6 +55,15 @@ public class QuizFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quiz, container, false);
+        View fullQuiz = inflater.inflate(R.layout.fragment_quiz, container, false);
+        tabLayout = (TabLayout) fullQuiz.findViewById(R.id.tabLayout);
+
+        quizAdapter = new QuizPagerAdapter(getParentFragmentManager());
+        qPager = (ViewPager) fullQuiz.findViewById(R.id.qPager);
+        qPager.setAdapter(quizAdapter);
+        tabLayout.setTabsFromPagerAdapter(quizAdapter);
+        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(qPager));
+        qPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        return fullQuiz;
     }
 }

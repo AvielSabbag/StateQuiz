@@ -1,5 +1,6 @@
 package edu.uga.cs.statequiz;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,10 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -52,6 +54,7 @@ public class SplashFragment extends Fragment {
         Button quizButton = fullSplash.findViewById(R.id.button);
 
         quizButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
 
@@ -77,6 +80,7 @@ public class SplashFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public Quiz createNewQuiz() {
         Quiz newQuiz;
         CapitalsData capitalsData = new CapitalsData(getContext());
@@ -86,7 +90,8 @@ public class SplashFragment extends Fragment {
         for(int i = 0; i<6; i++) {
             randomQuestions[i] = allQuestions.get(i);
         }
-        newQuiz = new Quiz();
+        newQuiz = new Quiz(LocalDateTime.now().toString(), randomQuestions);
+        return newQuiz;
 
     }
 }

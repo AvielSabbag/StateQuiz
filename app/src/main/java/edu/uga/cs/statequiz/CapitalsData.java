@@ -92,8 +92,8 @@ public class CapitalsData {
         ContentValues values = new ContentValues();
         values.put(CapitalsDBHelper.capitals_COLUMN_STATENAME, capQuestion.getState());
         values.put(CapitalsDBHelper.capitals_COLUMN_CAPITAL, capQuestion.getCapital());
-        values.put(CapitalsDBHelper.capitals_COLUMN_CITY, capQuestion.getCity());
-        values.put(CapitalsDBHelper.capitals_COLUMN_CITY1, capQuestion.getCity1());
+        values.put(CapitalsDBHelper.capitals_COLUMN_CITY, capQuestion.getCity1());
+        values.put(CapitalsDBHelper.capitals_COLUMN_CITY1, capQuestion.getCity2());
 
         long id = db.insert(CapitalsDBHelper.TABLE_CAPITALS, null, values);
 

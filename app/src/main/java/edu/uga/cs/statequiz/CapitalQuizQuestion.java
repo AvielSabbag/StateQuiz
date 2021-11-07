@@ -49,19 +49,19 @@ public class CapitalQuizQuestion {
     public void setCapital(String capital) {
         this.capital = capital;
     }
-    public String getCity() {
+    public String getCity1() {
         return city;
     }
 
-    public void setCity(String city2) {
+    public void setCity1(String city2) {
         this.city = city;
     }
 
-    public String getCity1() {
+    public String getCity2() {
         return city1;
     }
 
-    public void setCity1(String city3) {
+    public void setCity2(String city3) {
         this.city1 = city1;
     }
 
