@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -142,7 +143,9 @@ public class PlaceholderFragment extends Fragment {
         }
         @Override
         protected void onPostExecute(String cqc) {
-
+            if(isComplete(currentQuiz)) {
+                submitQuiz.setEnabled(true);
+            }
         }
     }
 
@@ -150,6 +153,10 @@ public class PlaceholderFragment extends Fragment {
             Quiz> {
         @Override
         protected Quiz doInBackground(Quiz... cqc) {
+            String[] answers = cqc[0].getAnswers();
+            for(int i = 0; i<answers.length;i++) {
+                Log.d("CapitalDBQuizSubmitter", "doInBackground: answer " + i + ": " + answers[i]);
+            }
             capitalsData.submitQuiz(cqc[0]);
             return cqc[0];
         }
@@ -157,6 +164,10 @@ public class PlaceholderFragment extends Fragment {
         protected void onPostExecute( Quiz cqc) {
             Log.d("SplashFragment", "onPostExecute: quiz "+ cqc.getId() + " stored in DB" );
             //inflate results screen
+            QuizResultFragment resultFragment = QuizResultFragment.newInstance(cqc);
+            FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentContainerView, resultFragment).commit();
+
         }
     }
 
