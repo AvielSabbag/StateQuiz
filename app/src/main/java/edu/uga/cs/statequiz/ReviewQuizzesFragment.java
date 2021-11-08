@@ -3,10 +3,14 @@ package edu.uga.cs.statequiz;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +18,14 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ReviewQuizzesFragment extends Fragment {
+
+    public static final String DEBUG_TAG = "ReviewQuizzes";
+
+    private RecyclerView recyclerView;
+    private QuizRecyclerAdapter recyclerAdapter;
+
+    private CapitalsData capitalsData = null;
+    private List<Quiz> quizList;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,12 +60,15 @@ public class ReviewQuizzesFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        Log.d( DEBUG_TAG, "ReviewJobLeadsActivity.onCreate()" );
+
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.fragment_review_quizzes );
     }
+
+    private void setContentView(int fragment_review_quizzes) {
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
