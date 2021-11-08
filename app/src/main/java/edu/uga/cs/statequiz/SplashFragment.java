@@ -1,5 +1,6 @@
 package edu.uga.cs.statequiz;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +25,9 @@ import java.util.List;
 public class SplashFragment extends Fragment {
 
     private static final String DEBUG = "edu.uga.cs.statequiz";
-
+    private static CapitalsData capitalsData;
+    private static List<CapitalQuizQuestion> questionList;
+    private static Context context;
 
     public SplashFragment() {
         // Required empty public constructor
@@ -37,11 +40,14 @@ public class SplashFragment extends Fragment {
      * @return A new instance of fragment SplashFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SplashFragment newInstance(int questionNumber) {
+    public static SplashFragment newInstance(int questionNumber, List<CapitalQuizQuestion> qList, Context cont) {
         SplashFragment fragment = new SplashFragment();
         Bundle args = new Bundle();
         args.putInt("questionNum", questionNumber);
         fragment.setArguments(args);
+        questionList = qList;
+        capitalsData = new CapitalsData(cont);
+        context = cont;
         return fragment;
     }
 
@@ -57,10 +63,10 @@ public class SplashFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-
-                QuizFragment quizFragment = QuizFragment.newInstance(createNewQuiz());
-                FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentContainerView, quizFragment).commit();
+                String[] answers = {"a", "a", "a", "a", "a", "a"};
+                Quiz[] currentQuiz = {createNewQuiz(questionList)};
+                CapitalDBQuizWriter quizWriter = new CapitalDBQuizWriter();
+                quizWriter.execute(currentQuiz);
             }
         });
         int questionNum = getQuestionNum();
@@ -81,17 +87,36 @@ public class SplashFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Quiz createNewQuiz() {
+    public Quiz createNewQuiz(List<CapitalQuizQuestion> allQuestions) {
         Quiz newQuiz;
-        CapitalsData capitalsData = new CapitalsData(getContext());
-        List<CapitalQuizQuestion> allQuestions = capitalsData.retrieveAllQuestions();
         Collections.shuffle(allQuestions);
         CapitalQuizQuestion[] randomQuestions = new CapitalQuizQuestion[6];
+        String[] answers = {"a", "a", "a", "a", "a", "a"};
         for(int i = 0; i<6; i++) {
+            Log.d("Splash", "createNewQuiz.questionAnswers: "+ allQuestions.get(i).getState() + ";" + allQuestions.get(i).getAnswer() +
+                    ";" + allQuestions.get(i).getCity1() + ";" + allQuestions.get(i).getCity2());
             randomQuestions[i] = allQuestions.get(i);
         }
-        newQuiz = new Quiz(LocalDateTime.now().toString(), randomQuestions);
+        newQuiz = new Quiz(LocalDateTime.now().toString(), randomQuestions, answers);
         return newQuiz;
 
     }
+
+    public class CapitalDBQuizWriter extends AsyncTask<Quiz,
+            Quiz> {
+        @Override
+        protected Quiz doInBackground(Quiz... cqc) {
+            capitalsData.storeQuiz(cqc[0]);
+            return cqc[0];
+        }
+        @Override
+        protected void onPostExecute( Quiz cqc) {
+            Log.d("SplashFragment", "onPostExecute: new quiz stored in DB" );
+            QuizFragment quizFragment = QuizFragment.newInstance(cqc, context);
+            FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentContainerView, quizFragment).commit();
+        }
+    }
+
+
 }

@@ -1,20 +1,33 @@
 package edu.uga.cs.statequiz;
 
+import android.content.Context;
+import android.util.Log;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import java.util.List;
+
 @SuppressWarnings("ALL")
 public class QuizPagerAdapter extends FragmentPagerAdapter {
-    public QuizPagerAdapter(FragmentManager fm) {
+    private Quiz currentQuiz;
+    private List<PlaceholderFragment> fragmentList;
+    private Context context;
+    public QuizPagerAdapter(FragmentManager fm, Quiz quiz, Context con) {
         super(fm);
+        currentQuiz = quiz;
+        context = con;
     }
 
-    @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance(position + 1);
+        Log.d("PagerAdapter", "getItem: " + position + " ; " + currentQuiz.getQuestions()[position].getState());
+        for(int i = 0; i<currentQuiz.getQuestions().length; i++) {
+            Log.d("PagerAdapter", "getItem: " + i + " ; " + currentQuiz.getQuestions()[i].getState());
+        }
+        return PlaceholderFragment.newInstance(position + 1, currentQuiz, context);
     }
 
     @Override
@@ -25,8 +38,9 @@ public class QuizPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        int imageNum = position + 1;
-        return String.valueOf("Image " + imageNum);
+        int questionNum = position + 1;
+        return String.valueOf("Q " + questionNum);
     }
+
 }
 

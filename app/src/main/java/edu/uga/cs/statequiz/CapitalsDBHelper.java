@@ -10,7 +10,7 @@ public class CapitalsDBHelper extends SQLiteOpenHelper {
     private static final String DEBUG_TAG = "CapitalsDBHelper";
 
     private static final String DB_NAME = "capitals.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     public static final String TABLE_CAPITALS = "capitals";
     public static final String capitals_COLUMN_ID = "_id";
@@ -29,6 +29,12 @@ public class CapitalsDBHelper extends SQLiteOpenHelper {
     public static final String quizzes_Q4 = "q4";
     public static final String quizzes_Q5 = "q5";
     public static final String quizzes_Q6 = "q6";
+    public static final String quizzes_A1 = "a1";
+    public static final String quizzes_A2 = "a2";
+    public static final String quizzes_A3 = "a3";
+    public static final String quizzes_A4 = "a4";
+    public static final String quizzes_A5 = "a5";
+    public static final String quizzes_A6 = "a6";
 
     private static CapitalsDBHelper helperInstance;
 
@@ -51,8 +57,13 @@ public class CapitalsDBHelper extends SQLiteOpenHelper {
                     + quizzes_Q3 + " TEXT, "
                     + quizzes_Q4 + " TEXT, "
                     + quizzes_Q5 + " TEXT, "
-                    + quizzes_Q6 + " TEXT"
-                    + ")";
+                    + quizzes_Q6 + " TEXT,"
+                    + quizzes_A1 + " TEXT, "
+                    + quizzes_A2 + " TEXT, "
+                    + quizzes_A3 + " TEXT, "
+                    + quizzes_A4 + " TEXT, "
+                    + quizzes_A5 + " TEXT, "
+                    + quizzes_A6 + " TEXT"+ ")";
 
     private CapitalsDBHelper(Context context) { super(context, DB_NAME, null, DB_VERSION); }
 

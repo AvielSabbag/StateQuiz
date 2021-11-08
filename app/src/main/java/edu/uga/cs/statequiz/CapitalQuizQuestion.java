@@ -4,7 +4,6 @@ public class CapitalQuizQuestion {
 
     private int id;
     private String state;
-    private String capital;
     private String city;
     private String city1;
     private String answer;
@@ -12,16 +11,15 @@ public class CapitalQuizQuestion {
     public CapitalQuizQuestion(){
         this.id = -1;
         this.state = "/";
-        this.capital = "/";
+        this.answer = "/";
         this.city = "/";
         this.city1 = "/";
-        this.answer = "/";
     }
 
-    public CapitalQuizQuestion(String state, String capital, String city, String city1){
+    public CapitalQuizQuestion(String state, String answer, String city, String city1){
         this.id = -1;
         this.state = state;
-        this.capital = capital;
+        this.answer = answer;
         this.city = city;
         this.city1 = city1;
     }
@@ -42,13 +40,6 @@ public class CapitalQuizQuestion {
         this.state = state;
     }
 
-    public String getCapital() {
-        return capital;
-    }
-
-    public void setCapital(String capital) {
-        this.capital = capital;
-    }
     public String getCity1() {
         return city;
     }

@@ -1,9 +1,12 @@
 package edu.uga.cs.statequiz;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -15,20 +18,26 @@ import java.util.List;
 
 public class PlaceholderFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
-    Quiz currentQuiz;
+    private static CapitalsData capitalsData;
+    private static Context context;
+    private static Quiz currentQuiz;
+    private static int questionIndex;
     CapitalQuizQuestion currentQuestion;
     TextView questionNum;
     TextView question;
     RadioButton ans1;
     RadioButton ans2;
     RadioButton ans3;
+    Button submitQuiz;
 
-    public static PlaceholderFragment newInstance(int sectionNumber) {
+    public static PlaceholderFragment newInstance(int sectionNumber, Quiz quiz, Context con) {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putInt("questionIndex", sectionNumber);
         fragment.setArguments(args);
-
+        currentQuiz = quiz;
+        context = con;
+        Log.d("PlaceHolderFragment", "newInstance: " + questionIndex);
         return fragment;
     }
 
@@ -39,12 +48,7 @@ public class PlaceholderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        if(getArguments() != null) {
-            currentQuiz = (Quiz) getParentFragment().getArguments().getSerializable("quiz");
-            currentQuestion = currentQuiz.getQuestions()[getArguments().getInt(ARG_SECTION_NUMBER)];
-        } else {
-            currentQuiz = null;
-        }
+        currentQuestion = currentQuiz.getQuestions()[getArguments().getInt("questionIndex") - 1];
     }
 
     @Override
@@ -56,18 +60,68 @@ public class PlaceholderFragment extends Fragment {
             ans1 = rootView.findViewById(R.id.radioButton);
             ans2 = rootView.findViewById(R.id.radioButton2);
             ans3 = rootView.findViewById(R.id.radioButton3);
-            questionNum.setText(getArguments().getInt(ARG_SECTION_NUMBER));
-            question.setText(currentQuestion.getState());
+            submitQuiz = rootView.findViewById(R.id.submitQuiz);
+            //quizID, questionNum, answer
+            String[] ans1Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)ans1.getText()};
+            ans1.setOnClickListener(new ReportAnswerListener(ans1Info));
+            String[] ans2Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)ans2.getText()};
+            ans2.setOnClickListener(new ReportAnswerListener(ans2Info));
+            String[] ans3Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)ans3.getText()};
+            ans3.setOnClickListener(new ReportAnswerListener(ans3Info));
+
+
+        return rootView;
+    }
+    public class ReportAnswerListener implements View.OnClickListener {
+
+        String[] answerInfo;
+
+        public ReportAnswerListener(String[] ansInfo) {
+            answerInfo = ansInfo;
+        }
+        @Override
+        public void onClick(View v) {
+            CapitalDBAnswerWriter answerWriter = new CapitalDBAnswerWriter();
+            answerWriter.execute(answerInfo);
+        }
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(getActivity() instanceof Context) {
+            Log.d("OnActivityCreated", "onActivityCreated: " + questionIndex);
+            final String questionNumS = "Question " + (getArguments().getInt("questionIndex"));
+            final String questionS = "What is the Capital of " + currentQuestion.getState() + "?";
             List<String> answerSet = new ArrayList<String>();
             answerSet.add((currentQuestion.getAnswer()));
             answerSet.add(currentQuestion.getCity1());
             answerSet.add(currentQuestion.getCity2());
             Collections.shuffle(answerSet);
-            ans1.setText(answerSet.get(0));
-            ans2.setText(answerSet.get(1));
-            ans3.setText(answerSet.get(2));
+            final String ans1S = answerSet.get(0);
+            final String ans2S = answerSet.get(1);
+            final String ans3S = answerSet.get(2);
+            final TextView[] textViews = {questionNum, question};
+            final RadioButton[] radioButtons = {ans1, ans2, ans3};
+            final String[] strings = {questionNumS, questionS, ans1S, ans2S, ans3S, Integer.toString(getArguments().getInt("questionIndex"))};
 
-        return rootView;
+            QuizFragment.loadView(textViews, radioButtons, strings, submitQuiz);
+        } else {
+            Log.d("PlaceholderFragment", "onActivityCreated: quizFragment not made");
+        }
+    }
+
+    public class CapitalDBAnswerWriter extends AsyncTask<String,
+            String> {
+        @Override
+        protected String doInBackground(String... cqc) {
+            capitalsData.reportAnswer(Integer.parseInt(cqc[0]),Integer.parseInt(cqc[1]), cqc[2] );
+            return cqc[0];
+        }
+        @Override
+        protected void onPostExecute(String cqc) {
+
+        }
     }
 
 }

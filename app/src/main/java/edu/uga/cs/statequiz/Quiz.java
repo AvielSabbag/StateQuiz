@@ -9,17 +9,20 @@ public class Quiz implements Serializable {
     private String date;
     private int score;
     private CapitalQuizQuestion[] questions;
+    private String[] answers;
 
     public Quiz() {
         id = 0;
         date = "";
         score = 0;
+
     }
 
-    public Quiz(String date, CapitalQuizQuestion[] q){
+    public Quiz(String date, CapitalQuizQuestion[] q, String[] ans){
         this.date = date;
         this.score = -1;
         questions = q;
+        answers = ans;
     }
 
     public int getId(){
@@ -49,5 +52,11 @@ public class Quiz implements Serializable {
     public CapitalQuizQuestion[] getQuestions() {return questions;}
 
     public void setQuestions( CapitalQuizQuestion[] qids) { questions = qids;}
+
+    public String[] getAnswers() {return answers;}
+
+    public void setAnswers(String[] ans) {answers = ans;}
+
+
 
 }

@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
  */
 public abstract class AsyncTask<Param,Result> {
 
-    private void executeInBackground( Param... params ) {
+    private void executeInBackground(Param... params) {
 
         // Get en executor service -- it will serve to run the task
         // in the background, i.e., in this executor.  This executor service
@@ -67,7 +67,7 @@ public abstract class AsyncTask<Param,Result> {
     }
 
     // This method is just like in the AsyncTask
-    public void execute( Param... arguments ){
+    public void execute(Param... arguments){
         executeInBackground( arguments );
     }
 

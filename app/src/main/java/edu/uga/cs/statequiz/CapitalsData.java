@@ -32,7 +32,13 @@ public class CapitalsData {
             CapitalsDBHelper.quizzes_Q3,
             CapitalsDBHelper.quizzes_Q4,
             CapitalsDBHelper.quizzes_Q5,
-            CapitalsDBHelper.quizzes_Q6
+            CapitalsDBHelper.quizzes_Q6,
+            CapitalsDBHelper.quizzes_A1,
+            CapitalsDBHelper.quizzes_A2,
+            CapitalsDBHelper.quizzes_A3,
+            CapitalsDBHelper.quizzes_A4,
+            CapitalsDBHelper.quizzes_A5,
+            CapitalsDBHelper.quizzes_A6
     };
 
     public CapitalsData( Context context ) {
@@ -82,7 +88,7 @@ public class CapitalsData {
                 cursor.close();
             }
         }
-
+        Log.d("CapitalsData", "retrieveAllQuestions: " + quizQuestion.get(0).getState());
         return quizQuestion;
     }
 
@@ -91,7 +97,8 @@ public class CapitalsData {
 
         ContentValues values = new ContentValues();
         values.put(CapitalsDBHelper.capitals_COLUMN_STATENAME, capQuestion.getState());
-        values.put(CapitalsDBHelper.capitals_COLUMN_CAPITAL, capQuestion.getCapital());
+        Log.d("CapitalsData", "storeQuizQuestion: " + capQuestion.getState());
+        values.put(CapitalsDBHelper.capitals_COLUMN_CAPITAL, capQuestion.getAnswer());
         values.put(CapitalsDBHelper.capitals_COLUMN_CITY, capQuestion.getCity1());
         values.put(CapitalsDBHelper.capitals_COLUMN_CITY1, capQuestion.getCity2());
 
@@ -100,5 +107,43 @@ public class CapitalsData {
         capQuestion.setId((int)id);
 
         return capQuestion;
+    }
+
+    public static Quiz storeQuiz(Quiz quiz) {
+
+        String[] answers = quiz.getAnswers();
+        ContentValues values = new ContentValues();
+        values.put(CapitalsDBHelper.quizzes_DATE, quiz.getDate());
+        values.put(CapitalsDBHelper.quizzes_SCORE, quiz.getScore());
+        values.put(CapitalsDBHelper.quizzes_Q1, quiz.getQuestions()[0].getId());
+        values.put(CapitalsDBHelper.quizzes_Q2, quiz.getQuestions()[1].getId());
+        values.put(CapitalsDBHelper.quizzes_Q3, quiz.getQuestions()[2].getId());
+        values.put(CapitalsDBHelper.quizzes_Q4, quiz.getQuestions()[3].getId());
+        values.put(CapitalsDBHelper.quizzes_Q5, quiz.getQuestions()[4].getId());
+        values.put(CapitalsDBHelper.quizzes_Q6, quiz.getQuestions()[5].getId());
+        values.put(CapitalsDBHelper.quizzes_A1, answers[0]);
+        values.put(CapitalsDBHelper.quizzes_A2, answers[1]);
+        values.put(CapitalsDBHelper.quizzes_A3, answers[2]);
+        values.put(CapitalsDBHelper.quizzes_A4, answers[3]);
+        values.put(CapitalsDBHelper.quizzes_A5, answers[4]);
+        values.put(CapitalsDBHelper.quizzes_A6, answers[5]);
+
+        long id = db.insert(CapitalsDBHelper.TABLE_QUIZZES, null, values);
+
+        quiz.setId((int)id);
+
+        return quiz;
+    }
+
+    public void reportAnswer(int quizID, int answerNum, String answer) {
+        ContentValues cv = new ContentValues();
+        cv.put("a" + answerNum, answer);
+        String quizIDS = Integer.toString(quizID);
+        String[] sArray = {quizIDS};
+        db.update(CapitalsDBHelper.TABLE_QUIZZES, cv ,CapitalsDBHelper.quizzes_COLUMN_ID + "= ?",sArray );
+    }
+
+    public int calculateScore() {
+        return 0;
     }
 }
