@@ -3,4 +3,5 @@
     <item name="id" type="id" />
     <item name="date" type="id" />
     <item name="score" type="id" />
+    <item name="recyclerView" type="id" />
 </resources>
