@@ -143,7 +143,21 @@ public class CapitalsData {
         db.update(CapitalsDBHelper.TABLE_QUIZZES, cv ,CapitalsDBHelper.quizzes_COLUMN_ID + "= ?",sArray );
     }
 
-    public int calculateScore() {
-        return 0;
+    public int submitQuiz(Quiz quiz) {
+        int quizID = quiz.getId();
+        CapitalQuizQuestion[] questions = quiz.getQuestions();
+        String[] answers = quiz.getAnswers();
+        quiz.setScore(0);
+        for(int i = 0; i<questions.length; i++) {
+            if(questions[i].getAnswer() == answers[0]) {
+                quiz.setScore(quiz.getScore()+1);
+            }
+        }
+        ContentValues cv = new ContentValues();
+        cv.put(CapitalsDBHelper.quizzes_SCORE, quiz.getScore());
+        String quizIDS = Integer.toString(quizID);
+        String[] sArray = {quizIDS};
+        db.update(CapitalsDBHelper.TABLE_QUIZZES, cv ,CapitalsDBHelper.quizzes_COLUMN_ID + "= ?",sArray );
+        return quiz.getScore();
     }
 }

@@ -60,6 +60,7 @@ public class QuizFragment extends Fragment {
         } else {
             subButton.setVisibility(View.GONE);
         }
+        subButton.setEnabled(PlaceholderFragment.isComplete(currentQuiz));
         textViews[0].setText(strings[0]);
         textViews[1].setText(strings[1]);
         buttons[0].setText(strings[2]);

@@ -37,6 +37,7 @@ public class PlaceholderFragment extends Fragment {
         fragment.setArguments(args);
         currentQuiz = quiz;
         context = con;
+        capitalsData = new CapitalsData(context);
         Log.d("PlaceHolderFragment", "newInstance: " + questionIndex);
         return fragment;
     }
@@ -68,10 +69,28 @@ public class PlaceholderFragment extends Fragment {
             ans2.setOnClickListener(new ReportAnswerListener(ans2Info));
             String[] ans3Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)ans3.getText()};
             ans3.setOnClickListener(new ReportAnswerListener(ans3Info));
-
+            submitQuiz.setEnabled(false);
+            submitQuiz.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CapitalDBQuizSubmitter newSubmitter = new CapitalDBQuizSubmitter();
+                    newSubmitter.execute(currentQuiz);
+                }
+            });
 
         return rootView;
     }
+
+    static boolean isComplete(Quiz currentQuiz) {
+        String[] answers = currentQuiz.getAnswers();
+        for(int i = 0; i< answers.length; i++) {
+            if(answers[i] == "a") {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public class ReportAnswerListener implements View.OnClickListener {
 
         String[] answerInfo;
@@ -115,12 +134,29 @@ public class PlaceholderFragment extends Fragment {
             String> {
         @Override
         protected String doInBackground(String... cqc) {
+            String[] answers = currentQuiz.getAnswers();
+            answers[Integer.parseInt(cqc[1]) - 1] = cqc[2];
             capitalsData.reportAnswer(Integer.parseInt(cqc[0]),Integer.parseInt(cqc[1]), cqc[2] );
+            Log.d("CapitalDBAnswerWriter", "doInBackground: question reported");
             return cqc[0];
         }
         @Override
         protected void onPostExecute(String cqc) {
 
+        }
+    }
+
+    public class CapitalDBQuizSubmitter extends AsyncTask<Quiz,
+            Quiz> {
+        @Override
+        protected Quiz doInBackground(Quiz... cqc) {
+            capitalsData.submitQuiz(cqc[0]);
+            return cqc[0];
+        }
+        @Override
+        protected void onPostExecute( Quiz cqc) {
+            Log.d("SplashFragment", "onPostExecute: quiz "+ cqc.getId() + " stored in DB" );
+            //inflate results screen
         }
     }
 
