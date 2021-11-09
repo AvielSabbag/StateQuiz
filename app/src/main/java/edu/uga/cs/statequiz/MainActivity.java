@@ -26,7 +26,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static CapitalsData capitalsData;
-    private static List<CapitalQuizQuestion> capitalQuizQuestions;
+    public static List<CapitalQuizQuestion> capitalQuizQuestions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

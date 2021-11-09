@@ -64,12 +64,6 @@ public class PlaceholderFragment extends Fragment {
             ans3 = rootView.findViewById(R.id.radioButton3);
             submitQuiz = rootView.findViewById(R.id.submitQuiz);
             //quizID, questionNum, answer
-            String[] ans1Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)ans1.getText()};
-            ans1.setOnClickListener(new ReportAnswerListener(ans1Info));
-            String[] ans2Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)ans2.getText()};
-            ans2.setOnClickListener(new ReportAnswerListener(ans2Info));
-            String[] ans3Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)ans3.getText()};
-            ans3.setOnClickListener(new ReportAnswerListener(ans3Info));
             submitQuiz.setEnabled(false);
             submitQuiz.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -124,8 +118,14 @@ public class PlaceholderFragment extends Fragment {
             final TextView[] textViews = {questionNum, question};
             final RadioButton[] radioButtons = {ans1, ans2, ans3};
             final String[] strings = {questionNumS, questionS, ans1S, ans2S, ans3S, Integer.toString(getArguments().getInt("questionIndex"))};
-
             QuizFragment.loadView(textViews, radioButtons, strings, submitQuiz);
+            String[] ans1Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)(ans1.getText())};
+            ans1.setOnClickListener(new ReportAnswerListener(ans1Info));
+            String[] ans2Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)(ans2.getText())};
+            ans2.setOnClickListener(new ReportAnswerListener(ans2Info));
+            String[] ans3Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)(ans3.getText())};
+            ans3.setOnClickListener(new ReportAnswerListener(ans3Info));
+
         } else {
             Log.d("PlaceholderFragment", "onActivityCreated: quizFragment not made");
         }
@@ -164,7 +164,7 @@ public class PlaceholderFragment extends Fragment {
         protected void onPostExecute( Quiz cqc) {
             Log.d("SplashFragment", "onPostExecute: quiz "+ cqc.getId() + " stored in DB" );
             //inflate results screen
-            QuizResultFragment resultFragment = QuizResultFragment.newInstance(cqc);
+            QuizResultFragment resultFragment = QuizResultFragment.newInstance(cqc, context);
             FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragmentContainerView, resultFragment).commit();
 

@@ -144,15 +144,21 @@ public class CapitalsData {
     }
 
     public int submitQuiz(Quiz quiz) {
+        Log.d("CapitalsData", "submitQuiz: quiz submission started...");
         int quizID = quiz.getId();
         CapitalQuizQuestion[] questions = quiz.getQuestions();
         String[] answers = quiz.getAnswers();
-        quiz.setScore(0);
-        for(int i = 0; i<questions.length; i++) {
-            if(questions[i].getAnswer() == answers[0]) {
-                quiz.setScore(quiz.getScore()+1);
+        int quizScore = 0;
+        Log.d("CapitalsData", "submitQuiz: questionsNum = " + questions.length);
+        for (int i = 0; i<questions.length;i++) {
+            Log.d("CapitalData", "submitQuiz: realAnswer = " + questions[i].getAnswer());
+            Log.d("CapitalData", "submitQuiz: userAnswer = " + answers[i]);
+            if(questions[i].getAnswer().equals(answers[i])) {
+                quizScore = quizScore + 1;
             }
+            Log.d("CapitalsData", "submitQuiz: quizScore = " + quizScore);
         }
+        quiz.setScore(quizScore);
         ContentValues cv = new ContentValues();
         cv.put(CapitalsDBHelper.quizzes_SCORE, quiz.getScore());
         String quizIDS = Integer.toString(quizID);
