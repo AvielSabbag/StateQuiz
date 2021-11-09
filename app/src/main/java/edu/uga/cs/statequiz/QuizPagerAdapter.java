@@ -17,6 +17,7 @@ public class QuizPagerAdapter extends FragmentPagerAdapter {
     public QuizPagerAdapter(FragmentManager fm, Quiz quiz, Context con) {
         super(fm);
         currentQuiz = quiz;
+        Log.d("QuizPagerAdapter", "QuizPagerAdapter: quizID = " + currentQuiz.getId());
         context = con;
     }
 
@@ -27,6 +28,7 @@ public class QuizPagerAdapter extends FragmentPagerAdapter {
         for(int i = 0; i<currentQuiz.getQuestions().length; i++) {
             Log.d("PagerAdapter", "getItem: " + i + " ; " + currentQuiz.getQuestions()[i].getState());
         }
+        Log.d("PagerAdapter", "getItem: quizID = " + currentQuiz.getId());
         return PlaceholderFragment.newInstance(position + 1, currentQuiz, context);
     }
 

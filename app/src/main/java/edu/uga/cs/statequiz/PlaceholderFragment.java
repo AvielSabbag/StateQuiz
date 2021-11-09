@@ -37,6 +37,7 @@ public class PlaceholderFragment extends Fragment {
         args.putInt("questionIndex", sectionNumber);
         fragment.setArguments(args);
         currentQuiz = quiz;
+        Log.d("PlaceHolderFragment", "newInstance: quizID = " + currentQuiz.getId());
         context = con;
         capitalsData = new CapitalsData(context);
         Log.d("PlaceHolderFragment", "newInstance: " + questionIndex);
@@ -103,8 +104,7 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(getActivity() instanceof Context) {
-            Log.d("OnActivityCreated", "onActivityCreated: " + questionIndex);
+            Log.d("OnActivityCreated", "onActivityCreated: quiz " + currentQuiz.getId() + " being loaded");
             final String questionNumS = "Question " + (getArguments().getInt("questionIndex"));
             final String questionS = "What is the Capital of " + currentQuestion.getState() + "?";
             List<String> answerSet = new ArrayList<String>();
@@ -126,9 +126,6 @@ public class PlaceholderFragment extends Fragment {
             String[] ans3Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)(ans3.getText())};
             ans3.setOnClickListener(new ReportAnswerListener(ans3Info));
 
-        } else {
-            Log.d("PlaceholderFragment", "onActivityCreated: quizFragment not made");
-        }
     }
 
     public class CapitalDBAnswerWriter extends AsyncTask<String,

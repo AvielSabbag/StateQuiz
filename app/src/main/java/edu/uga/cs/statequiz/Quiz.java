@@ -14,7 +14,7 @@ public class Quiz implements Serializable {
     public Quiz() {
         id = 0;
         date = "";
-        score = 0;
+        score = -1;
 
     }
 

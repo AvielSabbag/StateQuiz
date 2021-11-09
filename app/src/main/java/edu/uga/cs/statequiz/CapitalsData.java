@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -92,6 +93,80 @@ public class CapitalsData {
         return quizQuestion;
     }
 
+    public CapitalQuizQuestion retrieveQuestionByID(int questionID) {
+        Cursor cursor = null;
+        CapitalQuizQuestion capitalQuizQuestion = null;
+        try {
+            cursor = db.query(CapitalsDBHelper.TABLE_CAPITALS, capitalColumns,
+                    null, null, null, null, null);
+            //collect all quiz questions
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    long ID = cursor.getLong(cursor.getColumnIndex(CapitalsDBHelper.capitals_COLUMN_ID));
+                    String stateName = cursor.getString(cursor.getColumnIndex(CapitalsDBHelper.capitals_COLUMN_STATENAME));
+                    String capitalName = cursor.getString(cursor.getColumnIndex(CapitalsDBHelper.capitals_COLUMN_CAPITAL));
+                    String cityName = cursor.getString(cursor.getColumnIndex(CapitalsDBHelper.capitals_COLUMN_CITY));
+                    String city2Name = cursor.getString(cursor.getColumnIndex(CapitalsDBHelper.capitals_COLUMN_CITY1));
+
+                     capitalQuizQuestion =
+                            new CapitalQuizQuestion(stateName, capitalName, cityName, city2Name);
+                    capitalQuizQuestion.setId((int) ID);
+                    if (questionID == capitalQuizQuestion.getId()) {
+                        return capitalQuizQuestion;
+                    }
+
+                }
+            }
+        } catch (Exception e) {
+            Log.d(DEBUG_TAG, "Exception caught: " + e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return capitalQuizQuestion;
+    }
+
+    public List<Quiz> retrieveAllQuizzes () {
+        Cursor cursor = null;
+        List<Quiz> quizList = new ArrayList<Quiz>();
+        try {
+                cursor = db.query(CapitalsDBHelper.TABLE_QUIZZES, quizColumns,
+                        null, null, null, null, null);
+                //collect all quiz questions
+                if (cursor.getCount() > 0) {
+                    while (cursor.moveToNext()) {
+
+                        long id = cursor.getLong(cursor.getColumnIndex(CapitalsDBHelper.quizzes_COLUMN_ID));
+                        String date = cursor.getString(cursor.getColumnIndex(CapitalsDBHelper.quizzes_DATE));
+                        int score = cursor.getInt(cursor.getColumnIndex(CapitalsDBHelper.quizzes_SCORE));
+                        CapitalQuizQuestion[] questions = new CapitalQuizQuestion[6];
+                        String[] answers = new String[6];
+                        for (int i = 0; i < 6; i++) {
+                            questions[i] = retrieveQuestionByID(cursor.getInt(cursor.getColumnIndex("q" + (i + 1))));
+                        }
+                        for (int i = 0; i < 6; i++) {
+                            answers[i] = cursor.getString(cursor.getColumnIndex("a" + (i + 1)));
+                        }
+                        Quiz newQuiz = new Quiz(date, questions, answers);
+                        newQuiz.setScore(score);
+                        newQuiz.setId((int)id);
+                        quizList.add(newQuiz);
+
+                    }
+                }
+            } catch (Exception e) {
+                Log.d(DEBUG_TAG, "Exception caught: " + e);
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+            //Log.d("CapitalsData", "retrieveAllQuizzes: " + quizList.get(0).getDate());
+            return quizList;
+    }
+
+
     //Store a new capital quiz question
     public CapitalQuizQuestion storeQuizQuestion(CapitalQuizQuestion capQuestion) {
 
@@ -165,5 +240,21 @@ public class CapitalsData {
         String[] sArray = {quizIDS};
         db.update(CapitalsDBHelper.TABLE_QUIZZES, cv ,CapitalsDBHelper.quizzes_COLUMN_ID + "= ?",sArray );
         return quiz.getScore();
+    }
+
+    public void emptyDatabase(String dbName) {
+        db.execSQL("DELETE FROM" +  dbName);
+        Log.d("CapitalsData", "emptyDatabase: " + dbName + " emptied");
+    }
+
+    public Quiz returnUnfinishedQuiz() {
+        List<Quiz> quizList = retrieveAllQuizzes();
+        Quiz unfinishedQuiz = null;
+        for(Quiz q: quizList) {
+            if(q.getScore() == (-1)) {
+                unfinishedQuiz = q;
+            }
+        }
+        return unfinishedQuiz;
     }
 }

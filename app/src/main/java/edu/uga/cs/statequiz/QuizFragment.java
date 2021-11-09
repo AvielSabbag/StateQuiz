@@ -50,6 +50,7 @@ public class QuizFragment extends Fragment {
         args.putSerializable("quiz", quiz);
         fragment.setArguments(args);
         currentQuiz = quiz;
+        Log.d("QuizFragment", "newInstance: quizID = " + currentQuiz.getId());
         context = con;
         return fragment;
     }

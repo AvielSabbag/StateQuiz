@@ -27,13 +27,17 @@ public class MainActivity extends AppCompatActivity {
 
     private static CapitalsData capitalsData;
     public static List<CapitalQuizQuestion> capitalQuizQuestions;
+    public static Quiz quiz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        capitalQuizQuestions = new ArrayList<CapitalQuizQuestion>();
         capitalsData = new CapitalsData(this);
+        capitalsData.open();
+        capitalsData.emptyDatabase(" quizzes");
+        capitalsData.emptyDatabase(" capitals");
+        capitalQuizQuestions = new ArrayList<CapitalQuizQuestion>();
         constructDatabase("state_caps2.csv");
         int questionNumber = 0;
         //if(!(savedInstanceState == null)) {

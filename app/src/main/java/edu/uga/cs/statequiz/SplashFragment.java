@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ public class SplashFragment extends Fragment {
     private static CapitalsData capitalsData;
     private static List<CapitalQuizQuestion> questionList;
     private static Context context;
+    private static Quiz quizToTake;
 
     public SplashFragment() {
         // Required empty public constructor
@@ -48,6 +50,7 @@ public class SplashFragment extends Fragment {
         questionList = qList;
         capitalsData = new CapitalsData(cont);
         context = cont;
+        quizToTake = null;
         return fragment;
     }
 
@@ -64,9 +67,7 @@ public class SplashFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String[] answers = {"a", "a", "a", "a", "a", "a"};
-                Quiz[] currentQuiz = {createNewQuiz(questionList)};
-                CapitalDBQuizWriter quizWriter = new CapitalDBQuizWriter();
-                quizWriter.execute(currentQuiz);
+                createNewQuiz(questionList);
             }
         });
         int questionNum = getQuestionNum();
@@ -87,19 +88,14 @@ public class SplashFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Quiz createNewQuiz(List<CapitalQuizQuestion> allQuestions) {
-        Quiz newQuiz;
-        Collections.shuffle(allQuestions);
-        CapitalQuizQuestion[] randomQuestions = new CapitalQuizQuestion[6];
-        String[] answers = {"a", "a", "a", "a", "a", "a"};
-        for(int i = 0; i<6; i++) {
-            Log.d("Splash", "createNewQuiz.questionAnswers: "+ allQuestions.get(i).getState() + ";" + allQuestions.get(i).getAnswer() +
-                    ";" + allQuestions.get(i).getCity1() + ";" + allQuestions.get(i).getCity2());
-            randomQuestions[i] = allQuestions.get(i);
-        }
-        newQuiz = new Quiz(LocalDateTime.now().toString(), randomQuestions, answers);
-        return newQuiz;
-
+    public void createNewQuiz(List<CapitalQuizQuestion> allQuestions) {
+        CapitalDBUnfinishedQuizReader dbQuizReader = new CapitalDBUnfinishedQuizReader();
+        dbQuizReader.execute();
+    }
+    public void returnToOldQuiz(Quiz quiz) {
+        QuizFragment quizFragment = QuizFragment.newInstance(quiz, context);
+        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainerView, quizFragment).commit();
     }
 
     public class CapitalDBQuizWriter extends AsyncTask<Quiz,
@@ -111,10 +107,42 @@ public class SplashFragment extends Fragment {
         }
         @Override
         protected void onPostExecute( Quiz cqc) {
-            Log.d("SplashFragment", "onPostExecute: new quiz stored in DB" );
+            Log.d("SplashFragment", "onPostExecute: new quiz " + cqc.getId() + " stored in DB" );
             QuizFragment quizFragment = QuizFragment.newInstance(cqc, context);
-            FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragmentContainerView, quizFragment).commit();
+        }
+    }
+    public class CapitalDBUnfinishedQuizReader extends AsyncTask<Quiz,
+            Quiz> {
+        @Override
+        protected Quiz doInBackground(Quiz... cqc) {
+            return capitalsData.returnUnfinishedQuiz();
+        }
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        protected void onPostExecute( Quiz cqc) {
+            if(cqc == null) {
+                Quiz newQuiz;
+                Collections.shuffle(questionList);
+                CapitalQuizQuestion[] randomQuestions = new CapitalQuizQuestion[6];
+                String[] answers = {"a", "a", "a", "a", "a", "a"};
+                for (int i = 0; i < 6; i++) {
+                    Log.d("Splash", "createNewQuiz.questionAnswers: " + questionList.get(i).getState() + ";" + questionList.get(i).getAnswer() +
+                            ";" + questionList.get(i).getCity1() + ";" + questionList.get(i).getCity2());
+                    randomQuestions[i] = questionList.get(i);
+                }
+                newQuiz = new Quiz(LocalDateTime.now().toString(), randomQuestions, answers);
+                quizToTake = newQuiz;
+                Quiz[] currentQuiz = {quizToTake};
+                CapitalDBQuizWriter quizWriter = new CapitalDBQuizWriter();
+                quizWriter.execute(currentQuiz);
+            } else {
+                Quiz unfinishedQuiz = cqc;
+                quizToTake = unfinishedQuiz;
+                returnToOldQuiz(unfinishedQuiz);
+            }
+
         }
     }
 
