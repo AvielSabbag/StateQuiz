@@ -1,5 +1,8 @@
 package edu.uga.cs.statequiz;
-
+/**
+ * Aviel Sabbag & Kevan Kadkhodaian
+ * MainActivity class to house all necessary data for the quiz and options to go to tutorial, past quizzes
+ */
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;

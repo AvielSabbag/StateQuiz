@@ -1,5 +1,8 @@
 package edu.uga.cs.statequiz;
-
+/**
+ * Aviel Sabbag & Kevan Kadkhodaian
+ * Overview class to inflate fragment_overview which is the tutorial
+ */
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

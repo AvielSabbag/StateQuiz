@@ -1,5 +1,9 @@
 package edu.uga.cs.statequiz;
 
+/**
+ * Aviel Sabbag & Kevan Kadkhodaian
+ * QuizPagerAdapter to get each page of the quiz with the question and number
+ */
 import android.content.Context;
 import android.util.Log;
 

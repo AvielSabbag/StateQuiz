@@ -1,8 +1,11 @@
 package edu.uga.cs.statequiz;
+/**
+ * Aviel Sabbag & Kevan Kadkhodaian
+ * SplashActivity created for starting of app
+ */
+import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
 
 public class SplashActivity extends AppCompatActivity {
 

@@ -1,5 +1,10 @@
 package edu.uga.cs.statequiz;
 
+/**
+ * Aviel Sabbag & Kevan Kadkhodaian
+ * QuizFragment to create the questions for each question 1-6
+ */
+
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;

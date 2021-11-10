@@ -1,4 +1,9 @@
 package edu.uga.cs.statequiz;
+/**
+ * Aviel Sabbag & Kevan Kadkhodaian
+ * CapitalsData class to populate data in the database from the quiz by the user
+ */
+
 
 import android.content.ContentValues;
 import android.content.Context;

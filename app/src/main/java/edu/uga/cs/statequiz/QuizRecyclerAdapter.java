@@ -1,5 +1,9 @@
 package edu.uga.cs.statequiz;
-
+/**
+ * Aviel Sabbag & Kevan Kadkhodaian
+ * QuizRecyclerAdapater class created to show past quizzes in the past quizzes page, QuizHistoryHolder
+ * created within to inflate past_quiz_entry layout
+ */
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;

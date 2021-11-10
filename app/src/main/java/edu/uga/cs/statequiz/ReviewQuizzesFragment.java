@@ -1,5 +1,8 @@
 package edu.uga.cs.statequiz;
-
+/**
+ * Aviel Sabbag & Kevan Kadkhodaian
+ * Review quizzes fragment to show history of quizzes taken
+ */
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;

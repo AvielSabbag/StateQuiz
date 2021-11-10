@@ -1,5 +1,8 @@
 package edu.uga.cs.statequiz;
-
+/**
+ * Aviel Sabbag & Kevan Kadkhodaian
+ * SplashFragment responsible for writing quiz to DB and hold unfinished quiz
+ */
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;

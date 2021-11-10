@@ -1,5 +1,9 @@
 package edu.uga.cs.statequiz;
-
+/**
+ * Aviel Sabbag & Kevan Kadkhodaian
+ * CapitalsDBHelper class to create the database with the specifc tables to handle the quizzes created
+ * and quizzes completed by the user
+ */
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;

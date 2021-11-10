@@ -1,5 +1,11 @@
 package edu.uga.cs.statequiz;
 
+/**
+ * Aviel Sabbag & Kevan Kadkhodaian
+ * Placeholder Fragment to create quiz, hold current quiz, and report answers to DB. Also, the Answer Writer class
+ * and Quiz Submitter class are implemented
+ */
+
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;

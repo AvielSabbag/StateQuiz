@@ -1,5 +1,10 @@
 package edu.uga.cs.statequiz;
 
+/**
+ * Aviel Sabbag & Kevan Kadkhodaian
+ * QuizResult Fragment created to show score of Quiz and inflate the layout of fragment_quiz_result.
+ */
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;

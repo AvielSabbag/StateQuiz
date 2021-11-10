@@ -1,5 +1,8 @@
 package edu.uga.cs.statequiz;
-/** POJO class for quiz quesiton */
+/**
+ * Aviel Sabbag & Kevan Kadkhodaian
+ * POJO class for quiz quesiton
+ */
 public class CapitalQuizQuestion {
 
     private int id;

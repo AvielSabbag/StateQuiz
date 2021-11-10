@@ -1,5 +1,8 @@
 package edu.uga.cs.statequiz;
 
+/* Aviel Sabbag & Kevan Kadkhodaian
+*  AsynTask created
+* */
 import android.os.Handler;
 import android.os.Looper;
 
