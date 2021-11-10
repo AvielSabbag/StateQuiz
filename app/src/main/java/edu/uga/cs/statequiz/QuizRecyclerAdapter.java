@@ -28,9 +28,9 @@ public class QuizRecyclerAdapter extends RecyclerView.Adapter<QuizRecyclerAdapte
         public QuizHistoryHolder(@NonNull View itemView) {
             super(itemView);
 
-            quizID = itemView.findViewById(R.id.id);
-            date = itemView.findViewById(R.id.date);
-            score = itemView.findViewById(R.id.score);
+            quizID = itemView.findViewById(R.id.quizNum);
+            date = itemView.findViewById(R.id.quizDate);
+            score = itemView.findViewById(R.id.quizScore);
 
         }
 
@@ -38,7 +38,7 @@ public class QuizRecyclerAdapter extends RecyclerView.Adapter<QuizRecyclerAdapte
     }
     @Override
     public QuizHistoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_review_quizzes, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.past_quiz_entry, parent, false);
         return new QuizHistoryHolder(view);
     }
 
@@ -46,20 +46,19 @@ public class QuizRecyclerAdapter extends RecyclerView.Adapter<QuizRecyclerAdapte
     public void onBindViewHolder(QuizHistoryHolder holder, int position) {
         Quiz quiz = quizList.get(position);
 
-        Log.d(DEBUG_TAG, "onBindViewHolder: " + quiz);
+        Log.d(DEBUG_TAG, "onBindViewHolder: " + quiz.getId());
 
         int quizNumOffset = quiz.getId();
-        quizNumOffset++;
 
         holder.quizID.setText("Quiz #: " + String.valueOf(quizNumOffset));
-        holder.date.setText("Date Taken: " + String.valueOf(quiz.getDate()));
+        holder.date.setText("Date Started: " + String.valueOf(quiz.getDate()));
         holder.score.setText("Score: " + String.valueOf(quiz.getScore()));
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return quizList.size();
     }
 
 }

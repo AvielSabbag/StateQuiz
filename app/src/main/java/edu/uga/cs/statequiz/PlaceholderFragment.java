@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -30,6 +31,8 @@ public class PlaceholderFragment extends Fragment {
     RadioButton ans2;
     RadioButton ans3;
     Button submitQuiz;
+    RadioGroup radioGroup;
+    private static String answer;
 
     public static PlaceholderFragment newInstance(int sectionNumber, Quiz quiz, Context con) {
         PlaceholderFragment fragment = new PlaceholderFragment();
@@ -38,6 +41,7 @@ public class PlaceholderFragment extends Fragment {
         fragment.setArguments(args);
         currentQuiz = quiz;
         questionIndex = sectionNumber;
+        answer = "";
         Log.d("PlaceHolderFragment", "newInstance: quizID = " + currentQuiz.getId());
         context = con;
         capitalsData = new CapitalsData(context);
@@ -58,6 +62,7 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("placeholderFragment", "onCreateView: started");
         View rootView = inflater.inflate(R.layout.fragment_quiz_question, container, false);
             questionNum = rootView.findViewById(R.id.textView12);
             question = rootView.findViewById(R.id.textView13);
@@ -65,6 +70,7 @@ public class PlaceholderFragment extends Fragment {
             ans2 = rootView.findViewById(R.id.radioButton2);
             ans3 = rootView.findViewById(R.id.radioButton3);
             submitQuiz = rootView.findViewById(R.id.submitQuiz);
+            radioGroup = rootView.findViewById(R.id.radioGroup);
             //quizID, questionNum, answer
             submitQuiz.setEnabled(false);
             submitQuiz.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +112,7 @@ public class PlaceholderFragment extends Fragment {
     public void onResume() {
         super.onResume();
             Log.d("onResume", "onResume: quiz " + currentQuiz.getId() + " being loaded");
+
             final String questionNumS = "Question " + (getArguments().getInt("questionIndex"));
             final String questionS = "What is the Capital of " + currentQuestion.getState() + "?";
             List<String> answerSet = new ArrayList<String>();
@@ -119,7 +126,7 @@ public class PlaceholderFragment extends Fragment {
             final TextView[] textViews = {questionNum, question};
             final RadioButton[] radioButtons = {ans1, ans2, ans3};
             final String[] strings = {questionNumS, questionS, ans1S, ans2S, ans3S, Integer.toString(getArguments().getInt("questionIndex"))};
-            QuizFragment.loadView(textViews, radioButtons, strings, submitQuiz);
+            QuizFragment.loadView(textViews, radioButtons, radioGroup, strings, submitQuiz, answer);
             String[] ans1Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)(ans1.getText())};
             ans1.setOnClickListener(new ReportAnswerListener(ans1Info));
             String[] ans2Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)(ans2.getText())};
@@ -132,6 +139,7 @@ public class PlaceholderFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d("OnActivityCreated", "onActivityCreated: quiz " + currentQuiz.getId() + " being loaded");
+        currentQuestion = currentQuiz.getQuestions()[getArguments().getInt("questionIndex") - 1];
         final String questionNumS = "Question " + (getArguments().getInt("questionIndex"));
         final String questionS = "What is the Capital of " + currentQuestion.getState() + "?";
         List<String> answerSet = new ArrayList<String>();
@@ -143,10 +151,10 @@ public class PlaceholderFragment extends Fragment {
         final String ans2S = answerSet.get(1);
         final String ans3S = answerSet.get(2);
         final TextView[] textViews = {questionNum, question};
-        final RadioButton[] radioButtons = {ans1, ans2, ans3};
+        final RadioButton[] radioButtons =  {ans1, ans2, ans3};
         final String[] strings = {questionNumS, questionS, ans1S, ans2S, ans3S, Integer.toString(getArguments().getInt("questionIndex"))};
         Log.d("PlaceholderFragment", "onActivityCreated: loading: question " + getArguments().getInt("questionIndex") + "; state: " + questionS);
-        QuizFragment.loadView(textViews, radioButtons, strings, submitQuiz);
+        QuizFragment.loadView(textViews, radioButtons, radioGroup, strings, submitQuiz, answer);
         String[] ans1Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)(ans1.getText())};
         ans1.setOnClickListener(new ReportAnswerListener(ans1Info));
         String[] ans2Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)(ans2.getText())};
@@ -165,11 +173,12 @@ public class PlaceholderFragment extends Fragment {
             answers[Integer.parseInt(cqc[1]) - 1] = cqc[2];
             capitalsData.reportAnswer(Integer.parseInt(cqc[0]),Integer.parseInt(cqc[1]), cqc[2] );
             Log.d("CapitalDBAnswerWriter", "doInBackground: question reported");
-            return cqc[0];
+            return cqc[1];
         }
         @Override
         protected void onPostExecute(String cqc) {
             if(isComplete(currentQuiz)) {
+                answer = currentQuiz.getAnswers()[Integer.parseInt(cqc)-1];
                 submitQuiz.setEnabled(true);
             }
         }

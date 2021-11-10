@@ -31,6 +31,7 @@ public class QuizPagerAdapter extends FragmentPagerAdapter {
             Log.d("PagerAdapter", "getItem: " + i + " ; " + currentQuiz.getQuestions()[i].getState());
         }
         Log.d("PagerAdapter", "getItem: quizID = " + currentQuiz.getId());
+        //fragmentList.get(position).radioGroup.clearCheck();
         return fragmentList.get(position);
     }
 
@@ -50,7 +51,8 @@ public class QuizPagerAdapter extends FragmentPagerAdapter {
         List<PlaceholderFragment> questionList = new ArrayList<PlaceholderFragment>();
         for(int i = 0; i<6; i++) {
             Log.d("QuizPagerAdapter", "createQuestionList: created question " + i + " for quiz " + currentQuiz.getId());
-            questionList.add(PlaceholderFragment.newInstance(i + 1, currentQuiz, context));
+            PlaceholderFragment placeholderFragment = PlaceholderFragment.newInstance(i + 1, currentQuiz, context);
+            questionList.add(placeholderFragment);
         }
         fragmentList = questionList;
     }

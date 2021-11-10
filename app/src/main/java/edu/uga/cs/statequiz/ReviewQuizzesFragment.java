@@ -1,14 +1,15 @@
 package edu.uga.cs.statequiz;
 
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -25,16 +26,9 @@ public class ReviewQuizzesFragment extends Fragment {
     private QuizRecyclerAdapter recyclerAdapter;
 
     private CapitalsData capitalsData = null;
-    private List<Quiz> quizList;
+    private static List<Quiz> quizList;
+    private static Context context;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public ReviewQuizzesFragment() {
         // Required empty public constructor
@@ -44,36 +38,46 @@ public class ReviewQuizzesFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment ReviewQuizzesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ReviewQuizzesFragment newInstance(String param1, String param2) {
+    public static ReviewQuizzesFragment newInstance(List<Quiz> list, Context con) {
         ReviewQuizzesFragment fragment = new ReviewQuizzesFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+        quizList = list;
+        context = con;
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d( DEBUG_TAG, "ReviewJobLeadsActivity.onCreate()" );
+        Log.d( DEBUG_TAG, "ReviewQuizzesFragment.onCreate()" );
 
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.fragment_review_quizzes );
+
     }
 
-    private void setContentView(int fragment_review_quizzes) {
-    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_review_quizzes, container, false);
+        View fullView = inflater.inflate(R.layout.fragment_review_quizzes, container, false);
+        recyclerView = fullView.findViewById(R.id.recyclerView1);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(layoutManager);
+
+        capitalsData = new CapitalsData(context);
+        Log.d("ReviewQuizzesFragment", "onCreateView: QuizList: " + quizList.get(0).getId());
+        recyclerAdapter = new QuizRecyclerAdapter(quizList);
+        recyclerView.setAdapter(recyclerAdapter);
+        Log.d("ReviewQuizzesFragment", "onCreateView: completed");
+        return fullView;
+
     }
+
 }

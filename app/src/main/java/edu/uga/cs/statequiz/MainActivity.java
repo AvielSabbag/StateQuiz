@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.fragmentContainerView, tutorial).commit();
                     return true;
                 } else if (id == R.id.pastQuizzes) {
+                    CapitalDBQuizReader newQuizReader = new CapitalDBQuizReader();
+                    newQuizReader.execute();
                     return true;
                 } else {
                     return false;
@@ -130,4 +132,20 @@ public class MainActivity extends AppCompatActivity {
                 capitalQuizQuestions.add(cqc);
             }
         }
+
+    public class CapitalDBQuizReader extends AsyncTask<List<Quiz>,
+            List<Quiz>> {
+        @Override
+        protected List<Quiz> doInBackground(List<Quiz>... cqc) {
+            return capitalsData.retrieveAllQuizzes();
+        }
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        protected void onPostExecute( List<Quiz> cqc) {
+            ReviewQuizzesFragment review = ReviewQuizzesFragment.newInstance(cqc, getBaseContext());
+            FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction1.replace(R.id.fragmentContainerView, review).commit();
+
+        }
+    }
 }

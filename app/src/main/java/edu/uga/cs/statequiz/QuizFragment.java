@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -55,11 +56,11 @@ public class QuizFragment extends Fragment {
         context = con;
         quizAdapter = new QuizPagerAdapter(((FragmentActivity)context).getSupportFragmentManager(), currentQuiz, context);
         quizAdapter.createQuestionList();
-        Log.d("QuizFragment", "onCreateView: new question list created for quiz " + currentQuiz.getId());
+        Log.d("QuizFragment", "newInstance: new question list created for quiz " + currentQuiz.getId());
         quizAdapter.notifyDataSetChanged();
         return fragment;
     }
-    public static void loadView(TextView[] textViews, RadioButton[] buttons, String[] strings, Button subButton) {
+    public static void loadView(TextView[] textViews, RadioButton[] buttons, RadioGroup radioGroup, String[] strings, Button subButton, String answer) {
         Log.d("QuizFragment", "loadView: question: " + strings[0] + " for quiz " + currentQuiz.getId());
         if(Integer.parseInt(strings[5]) == 6) {
             subButton.setVisibility(View.VISIBLE);
@@ -72,6 +73,13 @@ public class QuizFragment extends Fragment {
         buttons[0].setText(strings[2]);
         buttons[1].setText(strings[3]);
         buttons[2].setText(strings[4]);
+        radioGroup.clearCheck();
+        for(int i = 0; i<3;i++) {
+            if(buttons[i].getText().equals(answer)) {
+                buttons[i].setChecked(true);
+                Log.d("QuizFragment", "loadView: answerReselected");
+            }
+        }
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
