@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -21,7 +22,7 @@ import com.google.android.material.tabs.TabLayout;
  * create an instance of this fragment.
  */
 public class QuizFragment extends Fragment {
-    QuizPagerAdapter quizAdapter;
+    private static QuizPagerAdapter quizAdapter;
     TabLayout tabLayout;
     ViewPager qPager;
     private static Quiz currentQuiz;
@@ -52,10 +53,14 @@ public class QuizFragment extends Fragment {
         currentQuiz = quiz;
         Log.d("QuizFragment", "newInstance: quizID = " + currentQuiz.getId());
         context = con;
+        quizAdapter = new QuizPagerAdapter(((FragmentActivity)context).getSupportFragmentManager(), currentQuiz, context);
+        quizAdapter.createQuestionList();
+        Log.d("QuizFragment", "onCreateView: new question list created for quiz " + currentQuiz.getId());
+        quizAdapter.notifyDataSetChanged();
         return fragment;
     }
     public static void loadView(TextView[] textViews, RadioButton[] buttons, String[] strings, Button subButton) {
-        Log.d("QuizFragment", "loadView: question:" + strings[0]);
+        Log.d("QuizFragment", "loadView: question: " + strings[0] + " for quiz " + currentQuiz.getId());
         if(Integer.parseInt(strings[5]) == 6) {
             subButton.setVisibility(View.VISIBLE);
         } else {
@@ -81,7 +86,6 @@ public class QuizFragment extends Fragment {
         View fullQuiz = inflater.inflate(R.layout.fragment_quiz, container, false);
         tabLayout = (TabLayout) fullQuiz.findViewById(R.id.tabLayout);
 
-        quizAdapter = new QuizPagerAdapter(getParentFragmentManager(), currentQuiz, context);
         qPager = (ViewPager) fullQuiz.findViewById(R.id.qPager);
         qPager.setAdapter(quizAdapter);
         tabLayout.setTabsFromPagerAdapter(quizAdapter);

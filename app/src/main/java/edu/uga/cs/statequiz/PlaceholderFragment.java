@@ -37,6 +37,7 @@ public class PlaceholderFragment extends Fragment {
         args.putInt("questionIndex", sectionNumber);
         fragment.setArguments(args);
         currentQuiz = quiz;
+        questionIndex = sectionNumber;
         Log.d("PlaceHolderFragment", "newInstance: quizID = " + currentQuiz.getId());
         context = con;
         capitalsData = new CapitalsData(context);
@@ -102,9 +103,9 @@ public class PlaceholderFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-            Log.d("OnActivityCreated", "onActivityCreated: quiz " + currentQuiz.getId() + " being loaded");
+    public void onResume() {
+        super.onResume();
+            Log.d("onResume", "onResume: quiz " + currentQuiz.getId() + " being loaded");
             final String questionNumS = "Question " + (getArguments().getInt("questionIndex"));
             final String questionS = "What is the Capital of " + currentQuestion.getState() + "?";
             List<String> answerSet = new ArrayList<String>();
@@ -127,6 +128,34 @@ public class PlaceholderFragment extends Fragment {
             ans3.setOnClickListener(new ReportAnswerListener(ans3Info));
 
     }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d("OnActivityCreated", "onActivityCreated: quiz " + currentQuiz.getId() + " being loaded");
+        final String questionNumS = "Question " + (getArguments().getInt("questionIndex"));
+        final String questionS = "What is the Capital of " + currentQuestion.getState() + "?";
+        List<String> answerSet = new ArrayList<String>();
+        answerSet.add((currentQuestion.getAnswer()));
+        answerSet.add(currentQuestion.getCity1());
+        answerSet.add(currentQuestion.getCity2());
+        Collections.shuffle(answerSet);
+        final String ans1S = answerSet.get(0);
+        final String ans2S = answerSet.get(1);
+        final String ans3S = answerSet.get(2);
+        final TextView[] textViews = {questionNum, question};
+        final RadioButton[] radioButtons = {ans1, ans2, ans3};
+        final String[] strings = {questionNumS, questionS, ans1S, ans2S, ans3S, Integer.toString(getArguments().getInt("questionIndex"))};
+        Log.d("PlaceholderFragment", "onActivityCreated: loading: question " + getArguments().getInt("questionIndex") + "; state: " + questionS);
+        QuizFragment.loadView(textViews, radioButtons, strings, submitQuiz);
+        String[] ans1Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)(ans1.getText())};
+        ans1.setOnClickListener(new ReportAnswerListener(ans1Info));
+        String[] ans2Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)(ans2.getText())};
+        ans2.setOnClickListener(new ReportAnswerListener(ans2Info));
+        String[] ans3Info = {Integer.toString(currentQuiz.getId()),Integer.toString(getArguments().getInt("questionIndex")), (String)(ans3.getText())};
+        ans3.setOnClickListener(new ReportAnswerListener(ans3Info));
+
+    }
+
 
     public class CapitalDBAnswerWriter extends AsyncTask<String,
             String> {

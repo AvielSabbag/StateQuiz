@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ALL")
@@ -19,6 +20,7 @@ public class QuizPagerAdapter extends FragmentPagerAdapter {
         currentQuiz = quiz;
         Log.d("QuizPagerAdapter", "QuizPagerAdapter: quizID = " + currentQuiz.getId());
         context = con;
+        fragmentList = new ArrayList<PlaceholderFragment>();
     }
 
     public Fragment getItem(int position) {
@@ -29,7 +31,7 @@ public class QuizPagerAdapter extends FragmentPagerAdapter {
             Log.d("PagerAdapter", "getItem: " + i + " ; " + currentQuiz.getQuestions()[i].getState());
         }
         Log.d("PagerAdapter", "getItem: quizID = " + currentQuiz.getId());
-        return PlaceholderFragment.newInstance(position + 1, currentQuiz, context);
+        return fragmentList.get(position);
     }
 
     @Override
@@ -42,6 +44,15 @@ public class QuizPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         int questionNum = position + 1;
         return String.valueOf("Q " + questionNum);
+    }
+
+    public void createQuestionList() {
+        List<PlaceholderFragment> questionList = new ArrayList<PlaceholderFragment>();
+        for(int i = 0; i<6; i++) {
+            Log.d("QuizPagerAdapter", "createQuestionList: created question " + i + " for quiz " + currentQuiz.getId());
+            questionList.add(PlaceholderFragment.newInstance(i + 1, currentQuiz, context));
+        }
+        fragmentList = questionList;
     }
 
 }
