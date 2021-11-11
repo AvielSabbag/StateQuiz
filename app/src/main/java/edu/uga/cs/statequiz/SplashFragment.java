@@ -33,7 +33,7 @@ public class SplashFragment extends Fragment {
     private static List<CapitalQuizQuestion> questionList;
     private static Context context;
     private static Quiz quizToTake;
-
+    private static Button quizButton;
     public SplashFragment() {
         // Required empty public constructor
     }
@@ -63,7 +63,7 @@ public class SplashFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View fullSplash = inflater.inflate(R.layout.fragment_splash, null);
-        Button quizButton = fullSplash.findViewById(R.id.button);
+        quizButton = fullSplash.findViewById(R.id.button);
 
         quizButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -75,9 +75,6 @@ public class SplashFragment extends Fragment {
         });
         int questionNum = getQuestionNum();
         Log.d(DEBUG, "onCreateView(SplashFragment): question - " + questionNum);
-        if(questionNum >= 1) {
-            quizButton.setText("Continue Quiz");
-        }
         return fullSplash;
     }
 
@@ -141,6 +138,7 @@ public class SplashFragment extends Fragment {
                 CapitalDBQuizWriter quizWriter = new CapitalDBQuizWriter();
                 quizWriter.execute(currentQuiz);
             } else {
+                quizButton.setText("Continue Quiz");
                 Quiz unfinishedQuiz = cqc;
                 quizToTake = unfinishedQuiz;
                 returnToOldQuiz(unfinishedQuiz);

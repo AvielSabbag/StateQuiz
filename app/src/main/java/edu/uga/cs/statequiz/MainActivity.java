@@ -3,6 +3,8 @@ package edu.uga.cs.statequiz;
  * Aviel Sabbag & Kevan Kadkhodaian
  * MainActivity class to house all necessary data for the quiz and options to go to tutorial, past quizzes
  */
+
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,11 +33,13 @@ public class MainActivity extends AppCompatActivity {
     private static CapitalsData capitalsData;
     public static List<CapitalQuizQuestion> capitalQuizQuestions;
     public static Quiz quiz;
+    private static Context actvityContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        actvityContext = this;
         capitalsData = new CapitalsData(this);
         capitalsData.open();
         capitalsData.emptyDatabase(" quizzes");
@@ -70,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(id == R.id.home) {
 
-                    SplashFragment splash = SplashFragment.newInstance(questionNumber, capitalQuizQuestions, getBaseContext());
+                    SplashFragment splash = SplashFragment.newInstance(questionNumber, capitalQuizQuestions, actvityContext);
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.fragmentContainerView, splash).commit();
                     return true;
