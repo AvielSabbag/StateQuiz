@@ -3,14 +3,29 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout-land/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout-land/activity_splash.xml" value="0.1" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout-land/fragment_overview.xml" value="0.1" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout-land/fragment_quiz_question.xml" value="0.1" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout-land/fragment_quiz_result.xml" value="0.16799999999999998" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout-land/fragment_review_quizzes.xml" value="0.1" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout-land/fragment_splash.xml" value="0.1" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout-land/nav_menu.xml" value="0.1" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout-land/overview_layout.xml" value="0.1" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout-land/past_quiz_entry.xml" value="0.1" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/activity_splash.xml" value="0.264" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/fragment_overview.xml" value="0.1" />
         <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/fragment_quiz_question.xml" value="0.1" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/fragment_quiz_result.xml" value="0.1" />
         <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/fragment_review_quizzes.xml" value="0.1" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/fragment_splash.xml" value="0.1" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/nav_menu.xml" value="0.1" />
+        <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/overview_layout.xml" value="0.1" />
         <entry key="..\:/Users/gabba/AndroidStudioProjects/StateQuiz/app/src/main/res/layout/past_quiz_entry.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1421875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.165" />
-        <entry key="app/src/main/res/layout/fragment_overview.xml" value="0.21458333333333332" />
         <entry key="app/src/main/res/layout/fragment_quiz.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_quiz_question.xml" value="0.1030741705046989" />
         <entry key="app/src/main/res/layout/fragment_quiz_result.xml" value="0.25" />
